@@ -106,8 +106,8 @@ mask = logical( pad_vals( mask, pad) );
 
 % Get the theoretical value of the LKC
 theoryL_cont = LKC_isogauss_theory( f, dim );
-params   = ConvFieldParams( f, res_theory, enlarge_theory, mask_lat );
-theoryL  = LKC_wncfield_theory( mask, params );
+params       = ConvFieldParams( f, res_theory, enlarge_theory, mask_lat );
+theoryL      = LKC_wncfield_theory( mask, params );
 
 % Get cell for output results
 results = cell( [ length( Nsubj ) length( Resadd ) ] );

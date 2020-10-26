@@ -43,7 +43,7 @@ path_wd = "/home/drtea/matlabToolboxes/TheoryConvFields/SimulationResults/";
 D = 2;
 
 % Amount of Monte Carlo simulations
-Msim = 1e3;
+Msim = 2%1e3;
 
 % Length of the domain
 T = 30;
@@ -61,11 +61,12 @@ FWHM = [ 1 1.5 2 3 4 5 6 ];
 Nsubj = [ 20 50 100 150 ];
 
 % Vector for resadd dependence
-Resadd = [ 1 3 5 ];
+Resadd = [ 0 1 2 3 ];
 
 % Methods compared in this simulation 
-methods = struct( 'convE', true, 'stationaryE', true, 'HPE', true, 'bHPE', [ Mboot, 1 ] );
-
+methods = struct( 'convE', true, 'bHPE', [ Mboot, 1 ], ...
+                  'kiebelE', 1, 'formanE', 1 );
+              
 % String for output
 outname = "Sim_LKCestims_";
 

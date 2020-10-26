@@ -29,11 +29,21 @@
 clear all
 close all
 
-%%% Add the RFTtoolbox to working path
-addpath(genpath("/home/drtea/matlabToolboxes/RFTtoolbox/"))
+server = true;
 
-%%% Add path for results
-path_wd = "/home/drtea/matlabToolboxes/TheoryConvFields/SimulationResults/";
+if server
+    %%% Add the RFTtoolbox to working path
+    addpath( genpath("~/projects/RFTtoolbox/") )
+
+    %%% Add path for results
+    path_wd = "~/projects/ConvolutionFieldsTheory/Results/";
+else
+    %%% Add the RFTtoolbox to working path
+    addpath( genpath("/home/drtea/matlabToolboxes/RFTtoolbox/") )
+
+    %%% Add path for results
+    path_wd = "/home/drtea/matlabToolboxes/ConvolutionFieldsTheory/Results/";
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

@@ -29,21 +29,30 @@
 clear all
 close all
 
-%%% Add the RFTtoolbox to working path
-addpath(genpath("/home/drtea/matlabToolboxes/RFTtoolbox/"))
+server = true;
 
-%%% Add path for results
-path_wd = "/home/drtea/matlabToolboxes/ConvolutionFieldsTheory/Results/";
+if server
+    %%% Add the RFTtoolbox to working path
+    addpath( genpath("~/projects/RFTtoolbox/") )
+
+    %%% Add path for results
+    path_wd = "~/projects/ConvolutionFieldsTheory/Results/";
+else
+    %%% Add the RFTtoolbox to working path
+    addpath( genpath("/home/drtea/matlabToolboxes/RFTtoolbox/") )
+
+    %%% Add path for results
+    path_wd = "/home/drtea/matlabToolboxes/ConvolutionFieldsTheory/Results/";
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %% %% Parameters for the simulation 
 %--------------------------------------------------------------------------
 % Dimension of Domain
 D = 1;
 
 % Amount of Monte Carlo simulations
-Msim = 150%1e3;
+Msim = 1e3;
 
 % Length of the domain
 T = 100;

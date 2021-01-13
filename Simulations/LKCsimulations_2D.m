@@ -25,35 +25,41 @@
 %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%% prepare workspace
+%--------------------------------------------------------------------------
+%% Prepare Workspace
+%--------------------------------------------------------------------------
+% Clear the current workspace
 clear all
 close all
 
-server = true;
+% Set on which machine the code runs.
+% CAUTION: this needs to ne adapted for reproducing the results from the
+% article!
+server = false;
 
 if server
-    %%% Add the RFTtoolbox to working path
+    % Add the RFTtoolbox to working path
     addpath( genpath("~/projects/RFTtoolbox/") )
 
-    %%% Add path for results
+    % Add path for results
     path_wd = "~/projects/ConvolutionFieldsTheory/Results/";
 else
-    %%% Add the RFTtoolbox to working path
+    % Add the RFTtoolbox to working path
     addpath( genpath("/home/drtea/matlabToolboxes/RFTtoolbox/") )
 
-    %%% Add path for results
+    % Add path for results
     path_wd = "/home/drtea/matlabToolboxes/ConvolutionFieldsTheory/Results/";
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% %% Parameters for the simulation 
+%--------------------------------------------------------------------------
+%% Parameters for the Simulations 
 %--------------------------------------------------------------------------
 % Dimension of Domain
 D = 2;
 
 % Amount of Monte Carlo simulations
-Msim = 2%1e3;
+Msim = 3;
 
 % Length of the domain
 T = 30;
@@ -81,9 +87,14 @@ methods = struct( 'convE', true, 'bHPE', [ Mboot, 1 ], ...
 outname = "Sim_LKCestims_";
 
 
-%% %% Stationary case 
 %--------------------------------------------------------------------------
-%% Dependence on sample size
+%% Simulations Stationary Random Field on Box 
+%--------------------------------------------------------------------------
+% Field does not get masked before application of convolutions to prevent
+% non-stationary effects caused by the boundary.
+mask_lat = false;
+
+%%%%%% Dependence on sample size
 % FWHM used in this simulation
 f = FWHM(4);
 
@@ -94,7 +105,7 @@ mask = logical( pad_vals( mask, pad) );
 
 % Get the theoretical value of the LKC
 params = ConvFieldParams( [ f, f ], 7,...
-                                  ceil( 7 / 2 ), false );
+                                  ceil( 7 / 2 ), mask_lat );
 theoryL = LKC_wncfield_theory( mask, params );
 
 % Get cell for output results
@@ -105,21 +116,22 @@ for n = 1:length( Nsubj )
     for r = 1:length( Resadd )
         % Get parameters for the convolution fields
         params = ConvFieldParams( [ f, f ], Resadd(r),...
-                                  ceil( Resadd(r) / 2 ), false );
+                                  ceil( Resadd(r) / 2 ), mask_lat );
         % Get the simulation results 
         results{n,r} = simulate_LKCests( Msim, Nsubj(n), methods,...
                                                   params, mask );
     end
 end
-simulation_time = toc;
+simulation_time = toc
 
-save( strcat( path_wd, outname, '_D', num2str(D), '_stationary_fixedFWHM.mat' ),...
+save( strcat( path_wd, outname, '_D', num2str(D), '_stationary_box_fixedFWHM.mat' ),...
                   'D', 'f', 'methods', 'Nsubj', 'FWHM', 'Resadd',...
                   'dim', 'Mboot', 'Msim', 'theoryL',...
                   'results', 'simulation_time' );
 clear simulation_time pad f mask params r n results theoryL
-              
-%% Dependence on FWHM
+      
+
+%%%%%% Dependence on FWHM
 % Sample size used in this simulation
 nsubj = Nsubj(2);
 
@@ -127,7 +139,7 @@ nsubj = Nsubj(2);
 results = cell( [ length( FWHM ) length( Resadd ) ] );
 
 % Initialize theoretical value
-theoryL = zeros( [ length( FWHM ) 1 ] );
+theoryL = zeros( [ length( FWHM ) D ] );
 
 tic
 for f = 1:length( FWHM )
@@ -138,29 +150,34 @@ for f = 1:length( FWHM )
 
     % Get the theoretical value of the LKC
     params = ConvFieldParams( [ FWHM(f), FWHM(f) ], 7,...
-                                  ceil( 7 / 2 ), false );
-    theoryL(f) = LKC_wncfield_theory( mask, params );
+                                  ceil( 7 / 2 ), mask_lat );
+    theoryL(f,:) = LKC_wncfield_theory( mask, params );
     
     for r = 1:length( Resadd )
         % Get parameters for the convolution fields
-        params = ConvFieldParams( f, Resadd(r),...
-                                  ceil( Resadd(r) / 2 ), false );
+        params = ConvFieldParams( [ FWHM(f), FWHM(f) ], Resadd(r),...
+                                    ceil( Resadd(r) / 2 ), mask_lat );
         % Get the simulation results 
         results{f,r} = simulate_LKCests( Msim, nsubj, methods,...
                                                   params, mask );
     end
 end
-simulation_time = toc;
+simulation_time = toc
 
-save( strcat( path_wd, outname, '_D', num2str(D), '_stationary_fixednsubj.mat' ),...
+save( strcat( path_wd, outname, '_D', num2str(D), '_stationary_box_fixednsubj.mat' ),...
                   'D', 'nsubj', 'methods', 'Nsubj', 'FWHM', 'Resadd',...
                   'dim', 'Mboot', 'Msim', 'theoryL',...
-                  'results' );
+                  'results', 'simulation_time' );
 
-
-%% %% Stationary case Sphere domain
+              
 %--------------------------------------------------------------------------
-%% Dependence on sample size
+%% Simulations Stationary Random Field on Sphere
+%--------------------------------------------------------------------------
+% Field does not get masked before application of convolutions to prevent
+% non-stationary effects caused by the boundary.
+mask_lat = false;
+
+%%%%%% Dependence on sample size
 % FWHM used in this simulation
 f = FWHM(4);
 
@@ -170,7 +187,9 @@ mask = true( dim );
 mask = bndry_voxels( logical( pad_vals( mask, pad) ), 'full' );
 
 % Get the theoretical value of the LKC
-theoryL = LKC_isogauss_theory( f, dim );
+params = ConvFieldParams( [ f, f ], 7,...
+                              ceil( 7 / 2 ), mask_lat );
+theoryL = LKC_wncfield_theory( mask, params );
 
 % Get cell for output results
 results = cell( [ length( Nsubj ) length( Resadd ) ] );
@@ -179,14 +198,14 @@ tic
 for n = 1:length( Nsubj )
     for r = 1:length( Resadd )
         % Get parameters for the convolution fields
-        params = ConvFieldParams( f, Resadd(r),...
-                                  ceil( Resadd(r) / 2 ), false );
+        params = ConvFieldParams( [ f, f ], Resadd(r),...
+                                  ceil( Resadd(r) / 2 ), mask_lat );
         % Get the simulation results 
         results{n,r} = simulate_LKCests( Msim, Nsubj(n), methods,...
                                                   params, mask );
     end
 end
-simulation_time = toc;
+simulation_time = toc
 
 save( strcat( path_wd, outname, '_D', num2str(D), '_stationary_fixedFWHM_sphere.mat' ),...
                   'D', 'f', 'methods', 'Nsubj', 'FWHM', 'Resadd',...
@@ -194,7 +213,7 @@ save( strcat( path_wd, outname, '_D', num2str(D), '_stationary_fixedFWHM_sphere.
                   'results', 'simulation_time' );
 clear simulation_time pad f mask params r n results theoryL
               
-%% Dependence on FWHM
+%%%%%% Dependence on FWHM
 % Sample size used in this simulation
 nsubj = Nsubj(2);
 
@@ -202,7 +221,7 @@ nsubj = Nsubj(2);
 results = cell( [ length( FWHM ) length( Resadd ) ] );
 
 % Initialize theoretical value
-theoryL = zeros( [ length( FWHM ) 1 ] );
+theoryL = zeros( [ length( FWHM ) D ] );
 
 tic
 for f = 1:length( FWHM )
@@ -212,20 +231,106 @@ for f = 1:length( FWHM )
     mask = bndry_voxels( logical( pad_vals( mask, pad) ), 'full' );
     
     % Get the theoretical value of the LKC
-    theoryL(f) = LKC_isogauss_theory( f, dim );
+    params = ConvFieldParams( [ FWHM(f), FWHM(f) ], 7,...
+                                ceil( 7 / 2 ), mask_lat );
+    theoryL(f,:) = LKC_wncfield_theory( mask, params );
+
     
     for r = 1:length( Resadd )
         % Get parameters for the convolution fields
-        params = ConvFieldParams( f, Resadd(r),...
-                                  ceil( Resadd(r) / 2 ), false );
+        params = ConvFieldParams( [ FWHM(f) FWHM(f) ], Resadd(r),...
+                                  ceil( Resadd(r) / 2 ), mask_lat );
         % Get the simulation results 
         results{f,r} = simulate_LKCests( Msim, nsubj, methods,...
                                                   params, mask );
     end
 end
-simulation_time = toc;
+simulation_time = toc
 
 save( strcat( path_wd, outname, '_D', num2str(D), '_stationary_fixednsubj_sphere.mat' ),...
                   'D', 'nsubj', 'methods', 'Nsubj', 'FWHM', 'Resadd',...
                   'dim', 'Mboot', 'Msim', 'theoryL',...
-                  'results' );
+                  'results', 'simulation_time' );
+           
+              
+%--------------------------------------------------------------------------
+%% Simulations Stationary Random Field on Sphere
+%--------------------------------------------------------------------------
+% Field does not get masked before application of convolutions to prevent
+% non-stationary effects caused by the boundary.
+mask_lat = true;
+
+%%%%%% Dependence on sample size
+% FWHM used in this simulation
+f = FWHM(4);
+
+% Get the mask
+pad  = ceil( 4 * FWHM2sigma(f) );
+mask = true( dim );
+mask = bndry_voxels( logical( pad_vals( mask, pad) ), 'full' );
+
+% Get the theoretical value of the LKC
+params = ConvFieldParams( [ f, f ], 7,...
+                              ceil( 7 / 2 ), mask_lat );
+theoryL = LKC_wncfield_theory( mask, params );
+
+% Get cell for output results
+results = cell( [ length( Nsubj ) length( Resadd ) ] );
+
+tic
+for n = 1:length( Nsubj )
+    for r = 1:length( Resadd )
+        % Get parameters for the convolution fields
+        params = ConvFieldParams( [ f, f ], Resadd(r),...
+                                  ceil( Resadd(r) / 2 ), mask_lat );
+        % Get the simulation results 
+        results{n,r} = simulate_LKCests( Msim, Nsubj(n), methods,...
+                                                  params, mask );
+    end
+end
+simulation_time = toc
+
+save( strcat( path_wd, outname, '_D', num2str(D), '_nonstationary_sphere_fixedFWHM.mat' ),...
+                  'D', 'f', 'methods', 'Nsubj', 'FWHM', 'Resadd',...
+                  'dim', 'Mboot', 'Msim', 'theoryL',...
+                  'results', 'simulation_time' );
+clear simulation_time pad f mask params r n results theoryL
+              
+%%%%%% Dependence on FWHM
+% Sample size used in this simulation
+nsubj = Nsubj(2);
+
+% Get cell for output results
+results = cell( [ length( FWHM ) length( Resadd ) ] );
+
+% Initialize theoretical value
+theoryL = zeros( [ length( FWHM ) D ] );
+
+tic
+for f = 1:length( FWHM )
+    % Get the mask
+    pad  = ceil( 4 * FWHM2sigma(f) );
+    mask = true( dim );
+    mask = bndry_voxels( logical( pad_vals( mask, pad) ), 'full' );
+    
+    % Get the theoretical value of the LKC
+    params = ConvFieldParams( [ FWHM(f), FWHM(f) ], 7,...
+                              ceil( 7 / 2 ), mask_lat );
+    theoryL(f,:) = LKC_wncfield_theory( mask, params );
+
+    
+    for r = 1:length( Resadd )
+        % Get parameters for the convolution fields
+        params = ConvFieldParams( [ FWHM(f) FWHM(f) ], Resadd(r),...
+                                  ceil( Resadd(r) / 2 ), mask_lat );
+        % Get the simulation results 
+        results{f,r} = simulate_LKCests( Msim, nsubj, methods,...
+                                                  params, mask );
+    end
+end
+simulation_time = toc
+
+save( strcat( path_wd, outname, '_D', num2str(D), '_nonstationary_sphere_fixednsubj.mat' ),...
+                  'D', 'nsubj', 'methods', 'Nsubj', 'FWHM', 'Resadd',...
+                  'dim', 'Mboot', 'Msim', 'theoryL',...
+                  'results', 'simulation_time' );

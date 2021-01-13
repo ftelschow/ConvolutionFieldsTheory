@@ -35,7 +35,7 @@ close all
 % Set on which machine the code runs.
 % CAUTION: this needs to ne adapted for reproducing the results from the
 % article!
-server = false;
+server = true;
 
 if server
     % Add the RFTtoolbox to working path

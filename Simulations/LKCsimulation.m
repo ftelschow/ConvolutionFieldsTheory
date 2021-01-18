@@ -48,10 +48,8 @@ if( length( FWHM ) == 1 )
     fvec = repmat( FWHM, [ 1, D ] );
     
     % Pad zeros to the mask if you do not want to have bdry effects
-    if ~mask_lat
-        pad  = ceil( 4 * FWHM2sigma( FWHM ) );
-        mask = logical( pad_vals( mask, pad ) );
-    end
+    pad  = ceil( 4 * FWHM2sigma( FWHM ) );
+    mask = logical( pad_vals( mask, pad ) );
 
     % Get the theoretical value of the LKC
     params = ConvFieldParams( fvec,...
@@ -95,10 +93,8 @@ if( length( Nsubj ) == 1 )
         fvec = repmat( FWHM(f), [ 1, D ] );
         
         % Pad zeros to the mask if you do not want to have boundary effects
-        if ~mask_lat
-            pad  = ceil( 4 * FWHM2sigma( FWHM(f) ) );
-            mask = logical( pad_vals( mask, pad) );
-        end
+        pad   = ceil( 4 * FWHM2sigma( FWHM(f) ) );
+        maskp = logical( pad_vals( mask, pad) );
         
         % Get the theoretical value of the LKC
         params = ConvFieldParams( fvec,...
@@ -116,10 +112,10 @@ if( length( Nsubj ) == 1 )
                                   
             % Get the simulation results 
             results{f,r} = simulate_LKCests( Msim,...
-                                             nsubj,...
+                                             Nsubj,...
                                              methods,...
                                              params,...
-                                             mask );
+                                             maskp );
         end
     end
     sim_time = toc

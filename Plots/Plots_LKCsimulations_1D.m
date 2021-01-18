@@ -77,7 +77,7 @@ end
 %%% Sphere example
 sim_name = "Sim_LKCestims_D1_nonstationary_fixedFWHM_sphere";
 load( strcat( path_results, sim_name ) )
-ylims     = round(theoryL-4):2:round(theoryL+5);
+ylims     = 3.2:0.1:3.8;
 
 for r = Resadd
     i = find(Resadd==r);

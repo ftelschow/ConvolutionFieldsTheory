@@ -1,5 +1,5 @@
 function [] = LKCsim_Article( fwhm_switch, field_name, mask_name, D, Msim,...
-                              out )
+                              out, path )
 %--------------------------------------------------------------------------
 % ARGUMENTS
 % Mandatory
@@ -25,6 +25,10 @@ if ~exist( 'out', 'var' )
     out = "";
 end
 
+if ~exist( 'path', 'var' )
+    path = '/vols/Scratch/ukbiobank/nichols/SelectiveInf/ConvolutionFieldsTheory/';
+end
+
 if isnumeric( out )
     out = num2str( out );
 end
@@ -37,32 +41,11 @@ end
 %--------------------------------------------------------------------------
 %% Prepare workspace
 %--------------------------------------------------------------------------
+% Add path to simulation code
+addpath( strcat( path, 'Simulations' ) )
 
-server = ~true;
-
-%----- BEGIN Change the next lines to make it run with your local installation!
-if server
-    path_CFthy = '/vols/Scratch/ukbiobank/nichols/SelectiveInf/ConvolutionFieldsTheory/';
-    
-    % Add path to simulation code
-    addpath( [ path_CFthy, 'Simulations' ] )
-
-    % Add path for results
-    path_wd = [path_CFthy, 'Results'];
-    
-else
-    % Add the RFTtoolbox to working path
-    addpath( genpath("/home/drtea/matlabToolboxes/RFTtoolbox/") )
-
-    % Add path to simulation code
-    addpath( "/home/drtea/matlabToolboxes/ConvolutionFieldsTheory/Simulations" )
-
-    % Add path for results
-    path_wd = "/home/drtea/matlabToolboxes/ConvolutionFieldsTheory/Results/";
-
-end
-
-%----- END
+% Add path for results
+path_results = strcat( path, 'Results' );
 
 
 %--------------------------------------------------------------------------
@@ -173,7 +156,7 @@ if fwhm_switch
                                                     mask_lat,...
                                                     theory_res );
 
-    save( strcat( path_wd, outname, '_D', num2str(D), case_name, '_fixedFWHM', out,'.mat' ),...
+    save( strcat( path_results, outname, '_D', num2str(D), case_name, '_fixedFWHM', out,'.mat' ),...
                   'D', 'fwhm', 'methods', 'Nsubj', 'fwhm', 'Resadd',...
                   'dim', 'Mboot', 'Msim', 'theoryL',...
                   'results', 'sim_time' );     
@@ -192,7 +175,7 @@ else
                                                     mask_lat,...
                                                     theory_res );
 
-    save( strcat( path_wd, outname, '_D', num2str(D), case_name, '_fixednsubj', out,'.mat' ),...
+    save( strcat( path_results, outname, '_D', num2str(D), case_name, '_fixednsubj', out,'.mat' ),...
                   'D', 'nsubj', 'methods', 'FWHM', 'Resadd',...
                   'dim', 'Mboot', 'Msim', 'theoryL',...
                   'results', 'sim_time' );

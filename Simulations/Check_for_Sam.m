@@ -1,9 +1,13 @@
 %% Short check of parallelization for Sam
 % If this runs through smoothly, I hope it will too on the server
 %--------------------------------------------------------------------------
+% BEGIN insert your local folder
+path = "/home/drtea/matlabToolboxes/ConvolutionFieldsTheory/";
+% END
+addpath( strcat( path, 'Simulations' ) )
 
 % Choose dimension of the domain
-D = 2; % 1; %
+D = 1; % 2; %
 
 % Number of runs by dimension
 Drun = [ 4, 6 ];
@@ -60,6 +64,6 @@ for run = 1:Drun(D)
     end
 
     % call the function simulating the LKCs
-    LKCsim_Article( fwhm_switch, field_name, mask_name, D, 2 )
+    LKCsim_Article( fwhm_switch, field_name, mask_name, D, 2, "", path )
 end
 toc

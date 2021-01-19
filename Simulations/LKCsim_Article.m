@@ -1,20 +1,16 @@
-function [] = LKCsim_Article( fwhm_switch,...
-                              field_name,...
-                              mask_name,...
-                              D,...
-                              Msim,...
+function [] = LKCsim_Article( fwhm_switch, field_name, mask_name, D, Msim,...
                               out )
 %--------------------------------------------------------------------------
 % ARGUMENTS
 % Mandatory
 %   fwhm_switch  logical true means that fwhm is fixed in this simulation,
 %                false means that Nsubj is fixed
-%   field_name   either "stat" or "nonstat"
+%   field_name   either "stationary" or "nonstationary"
 %   mask_name    either "box" or "sphere"
 %   D            dimension of the domain
 % Optional
 %   Msim         number of MC runs. Default 1e3.
-%   out          
+%   out          string or numeric
 %
 %--------------------------------------------------------------------------
 % OUTPUT
@@ -45,7 +41,16 @@ end
 server = ~true;
 
 %----- BEGIN Change the next lines to make it run with your local installation!
-if ~server
+if server
+    path_CFthy = '/vols/Scratch/ukbiobank/nichols/SelectiveInf/ConvolutionFieldsTheory/';
+    
+    % Add path to simulation code
+    addpath( [ path_CFthy, 'Simulations' ] )
+
+    % Add path for results
+    path_wd = [path_CFthy, 'Results'];
+    
+else
     % Add the RFTtoolbox to working path
     addpath( genpath("/home/drtea/matlabToolboxes/RFTtoolbox/") )
 
@@ -54,18 +59,7 @@ if ~server
 
     % Add path for results
     path_wd = "/home/drtea/matlabToolboxes/ConvolutionFieldsTheory/Results/";
-    
-else
-    path_CFthy = '/vols/Scratch/ukbiobank/nichols/SelectiveInf/ConvolutionFieldsTheory/';
-    
-    % Add the RFTtoolbox to working path
-    addpath( genpath("/home/drtea/matlabToolboxes/RFTtoolbox/") )
 
-    % Add path to simulation code
-    addpath( [ path_CFthy, 'Simulations' ] )
-
-    % Add path for results
-    path_wd = [path_CFthy, 'Results'];
 end
 
 %----- END
@@ -142,7 +136,7 @@ outname = "Sim_LKCestims_";
 %--------------------------------------------------------------------------
 
 % Name of scenario
-if strcmp( field_name, "stat" )
+if strcmp( field_name, "stationary" )
     case_name = "_stationary";
     % Field does not get masked before application of convolutions to prevent
     % non-stationary effects caused by the boundary.

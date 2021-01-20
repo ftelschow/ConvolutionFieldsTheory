@@ -2,7 +2,7 @@
 % If this runs through smoothly, I hope it will too on the server
 %--------------------------------------------------------------------------
 % BEGIN insert your local folder
-path = "/home/drtea/matlabToolboxes/ConvolutionFieldsTheory/";
+path = "/vols/Scratch/ukbiobank/nichols/SelectiveInf/ConvolutionFieldsTheory/";
 % END
 addpath( strcat( path, 'Simulations' ) )
 

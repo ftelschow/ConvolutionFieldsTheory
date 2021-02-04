@@ -2,12 +2,13 @@
 % If this runs through smoothly, I hope it will too on the server
 %--------------------------------------------------------------------------
 % BEGIN insert your local folder
-path = "/vols/Scratch/ukbiobank/nichols/SelectiveInf/ConvolutionFieldsTheory/";
+% path = "/vols/Scratch/ukbiobank/nichols/SelectiveInf/ConvolutionFieldsTheory/";
+path = "C:\Users\12SDa\davenpor\davenpor\Other_Toolboxes\ConvolutionFieldsTheory\";
 % END
 addpath( strcat( path, 'Simulations' ) )
 
 % Choose dimension of the domain
-D = 1; % 2; %
+D = 2; % 1; %
 
 % Number of runs by dimension
 Drun = [ 4, 6 ];
@@ -15,6 +16,7 @@ Drun = [ 4, 6 ];
 % Loop over runs which will be parallel on the server
 tic
 for run = 1:Drun(D)
+    run
     switch D
         case 1
             % Setting for the different runs

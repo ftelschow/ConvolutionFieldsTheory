@@ -111,7 +111,7 @@ methods = struct( 'convE', true, 'bHPE', [ Mboot, 1 ], ...
                   'kiebelE', 1, 'formanE', 1 );
               
 % String for output
-outname = "Sim_LKCestims_";
+outname = "Sim_LKCestims";
 
 
 %--------------------------------------------------------------------------

@@ -47,7 +47,7 @@ sfont = 30;
 %% ------------------------------------------------------------------------
 % Fixed FWHM
 %%% Cube example
-sim_name = "Sim_LKCestims_D1_stationary_fixedFWHM";
+sim_name = "Sim_LKCestims_D1_stationary_box_fixedFWHM";
 load( strcat( path_results, sim_name ) )
 
 xlab_name = 'Sample Size [{\it N}]';
@@ -61,7 +61,7 @@ for r = Resadd
                         xlab_name, xlims, ylab_name, ...
                         ylims, "northeast", ...
                         logplot, [1 3 4 5 6], scale, sfont );
-    l = title( strcat( "1D Stationary: FWHM = ", num2str(f),...
+    l = title( strcat( "1D Stationary: FWHM = ", num2str(fwhm),...
                        " Resadd = ", num2str(r) ));
     set( l, 'Interpreter', 'latex' );
     
@@ -70,14 +70,20 @@ for r = Resadd
     fig.PaperPositionMode = 'auto';
     fig_pos = fig.PaperPosition;
     fig.PaperSize = [ fig_pos(3) fig_pos(4) ];
-    print( strcat( "Pics/", sim_name, "_resadd", num2str(r) ), '-dpng' )
+    print( strcat( path_pics, sim_name, "_resadd", num2str(r) ), '-dpng' )
     hold off;
 end
 
 %%% Sphere example
-sim_name = "Sim_LKCestims_D1_nonstationary_fixedFWHM_sphere";
+sim_name = "Sim_LKCestims_D1_nonstationary_sphere_fixedFWHM";
 load( strcat( path_results, sim_name ) )
-ylims     = 3.2:0.1:3.8;
+
+%
+rangey = [2.8 3.6];
+dy     = 0.2;
+n      = diff( rangey ) / dy + 1;
+ylims  = linspace( rangey(1), rangey(2), n );
+
 
 for r = Resadd
     i = find(Resadd==r);
@@ -85,7 +91,7 @@ for r = Resadd
                         xlab_name, xlims, ylab_name, ...
                         ylims, "northeast", ...
                         logplot, [1 3 4 5 6], scale, sfont );
-    l = title( strcat( "1D non-Stationary: FWHM = ", num2str(f),...
+    l = title( strcat( "1D non-Stationary: FWHM = ", num2str(fwhm),...
                        " Resadd = ", num2str(r) ));
     set( l, 'Interpreter', 'latex' );
     
@@ -94,20 +100,20 @@ for r = Resadd
     fig.PaperPositionMode = 'auto';
     fig_pos = fig.PaperPosition;
     fig.PaperSize = [ fig_pos(3) fig_pos(4) ];
-    print( strcat( "Pics/", sim_name, "_resadd", num2str(r) ), '-dpng' )
+    print( strcat( path_pics, sim_name, "_resadd", num2str(r) ), '-dpng' )
     hold off;
 end
 
 %% ------------------------------------------------------------------------
 % Fixed nsubj
 %%% Cube example
-sim_name = "Sim_LKCestims_D1_stationary_fixednsubj";
+sim_name = "Sim_LKCestims_D1_stationary_box_fixednsubj";
 load( strcat( path_results, sim_name ) )
 xlab_name = 'FWHM';
 xlims = FWHM;
 logplot = 1;
 
-ylims = log10([ min(theoryL)-5 max(theoryL)+5 ]);
+ylims = log10([ min(theoryL)-4 max(theoryL)+ 30 ]);
 
 for r = Resadd
     i = find(Resadd==r);
@@ -123,18 +129,18 @@ for r = Resadd
     fig.PaperPositionMode = 'auto';
     fig_pos = fig.PaperPosition;
     fig.PaperSize = [ fig_pos(3) fig_pos(4) ];
-    print( strcat( "Pics/", sim_name, "_resadd", num2str(r) ), '-dpng' )
+    print( strcat( path_pics, sim_name, "_resadd", num2str(r) ), '-dpng' )
     hold off;
 end
 
 %%% Sphere example
-sim_name = "Sim_LKCestims_D1_nonstationary_fixednsubj_sphere";
+sim_name = "Sim_LKCestims_D1_nonstationary_sphere_fixednsubj";
 load( strcat( path_results, sim_name ) )
 
 xlab_name = 'FWHM';
 ylab_name = '$\mathcal{L}_1$';
 xlims = FWHM;
-ylims     = log10([ min(theoryL)-3 max(theoryL)+5 ]);
+ylims     = log10([ min(theoryL)-0.2 max(theoryL)+5 ]);
 logplot = 1;
 
 for r = Resadd
@@ -151,7 +157,7 @@ for r = Resadd
     fig.PaperPositionMode = 'auto';
     fig_pos = fig.PaperPosition;
     fig.PaperSize = [ fig_pos(3) fig_pos(4) ];
-    print( strcat( "Pics/", sim_name, "_resadd", num2str(r) ), '-dpng' )
+    print( strcat( path_pics, sim_name, "_resadd", num2str(r) ), '-dpng' )
     hold off;
 end
 close all

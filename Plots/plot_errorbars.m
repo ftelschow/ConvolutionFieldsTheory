@@ -88,8 +88,9 @@ else
     L = length( methods );
 end
 
+dd = 15;
 N = length(xlims);
-xvec  = (1:N) * 15; %nvec;
+xvec  = (1:N) * dd; %nvec;
 dL    = linspace(-1, 1, length(methods) );
 names = names( 3:end );
 names = names( methods );
@@ -137,7 +138,14 @@ h = figure, clf, hold on;
                     'Color', [185 185 185]/255, 'LineWidth', 2 ), hold on
         end
     else
-        plot( xvec, horzlines, 'Color', [185 185 185]/255, 'LineWidth', 2 ), hold on
+        xvec2  = (xvec(1) - dd/2):dd:(xvec(end) + dd/2);
+        for k = 1:length(horzlines)
+            xx = [ xvec2(k), xvec2(k+1) ];
+            plot( xx, [ horzlines(k), horzlines(k)],...
+                  'Color', [185 185 185] / 255,...
+                  'LineWidth', 2 )
+            hold on
+        end
     end
     
     % Modify gloabal font size for this plot

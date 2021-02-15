@@ -21,12 +21,19 @@ function [] = LKCsim_Article( fwhm_switch, field_name, mask_name, D, Msim,...
 %% Check input
 %--------------------------------------------------------------------------
 
+% Add the toolbox to the path 
+%path_toolbox = '/home/drtea/matlabToolboxes/RFTtoolbox';
+path_toolbox = '~/projects/RFTtoolbox';
+addpath(genpath(path_toolbox))
+
 if ~exist( 'out', 'var' )
     out = "";
 end
 
 if ~exist( 'path', 'var' )
-    path = '/vols/Scratch/ukbiobank/nichols/SelectiveInf/ConvolutionFieldsTheory/';
+    %path = '/vols/Scratch/ukbiobank/nichols/SelectiveInf/ConvolutionFieldsTheory/';
+%    path = '~/projects/ConvolutionFieldsTheory/Results/';
+    path = '/home/drtea/matlabToolboxes/ConvolutionFieldsTheory/Results/';
 end
 
 if isnumeric( out )

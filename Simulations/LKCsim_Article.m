@@ -20,20 +20,14 @@ function [] = LKCsim_Article( fwhm_switch, field_name, mask_name, D, Msim,...
 %--------------------------------------------------------------------------
 %% Check input
 %--------------------------------------------------------------------------
-
-% Add the toolbox to the path 
-%path_toolbox = '/home/drtea/matlabToolboxes/RFTtoolbox';
-path_toolbox = '~/projects/RFTtoolbox';
-addpath(genpath(path_toolbox))
-
 if ~exist( 'out', 'var' )
     out = "";
 end
 
 if ~exist( 'path', 'var' )
-    %path = '/vols/Scratch/ukbiobank/nichols/SelectiveInf/ConvolutionFieldsTheory/';
-%    path = '~/projects/ConvolutionFieldsTheory/Results/';
-    path = '/home/drtea/matlabToolboxes/ConvolutionFieldsTheory/Results/';
+%    path = '/vols/Scratch/ukbiobank/nichols/SelectiveInf/ConvolutionFieldsTheory/';
+%    path = '/home/drtea/matlabToolboxes/ConvolutionFieldsTheory/';
+    path = '~/projects/ConvolutionFieldsTheory/';
 end
 
 if isnumeric( out )
@@ -48,11 +42,16 @@ end
 %--------------------------------------------------------------------------
 %% Prepare workspace
 %--------------------------------------------------------------------------
+% Add the toolbox to the path 
+% path_toolbox = '/home/drtea/matlabToolboxes/RFTtoolbox';
+path_toolbox = '~/projects/RFTtoolbox';
+addpath(genpath(path_toolbox))
+
 % Add path to simulation code
 addpath( strcat( path, 'Simulations' ) )
 
 % Add path for results
-path_results = strcat( path, 'Results' );
+path_results = strcat( path, 'Results/' );
 
 
 %--------------------------------------------------------------------------
@@ -182,7 +181,7 @@ else
                                                     mask_lat,...
                                                     theory_res );
 
-    save( strcat( path_results, outname, '_D', num2str(D), case_name, '_fixednsubj', out,'.mat' ),...
+    save( strcat( path_results, outname, '_D', num2str(D), case_name, '_fixednsubj_', out,'.mat' ),...
                   'D', 'nsubj', 'methods', 'FWHM', 'Resadd',...
                   'dim', 'Mboot', 'Msim', 'theoryL',...
                   'results', 'sim_time' );

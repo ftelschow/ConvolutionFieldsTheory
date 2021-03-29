@@ -44,7 +44,7 @@ end
 %--------------------------------------------------------------------------
 % Add the toolbox to the path 
 % path_toolbox = '/home/drtea/matlabToolboxes/RFTtoolbox';
-path_toolbox = '~/projects/RFTtoolbox';
+path_toolbox = '~/MatlabToolboxes/RFTtoolbox';
 addpath(genpath(path_toolbox))
 
 % Add path to simulation code

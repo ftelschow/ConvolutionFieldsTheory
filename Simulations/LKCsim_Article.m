@@ -27,7 +27,7 @@ end
 if ~exist( 'path', 'var' )
 %    path = '/vols/Scratch/ukbiobank/nichols/SelectiveInf/ConvolutionFieldsTheory/';
 %    path = '/home/drtea/matlabToolboxes/ConvolutionFieldsTheory/';
-    path = '~/projects/ConvolutionFieldsTheory/';
+    path = '~/MatlabToolboxes/ConvolutionFieldsTheory/';
 end
 
 if isnumeric( out )
@@ -44,7 +44,7 @@ end
 %--------------------------------------------------------------------------
 % Add the toolbox to the path 
 % path_toolbox = '/home/drtea/matlabToolboxes/RFTtoolbox';
-path_toolbox = '~/projects/RFTtoolbox';
+path_toolbox = '~/MatlabToolboxes/RFTtoolbox';
 addpath(genpath(path_toolbox))
 
 % Add path to simulation code

@@ -27,7 +27,7 @@ end
 if ~exist( 'path', 'var' )
 %    path = '/vols/Scratch/ukbiobank/nichols/SelectiveInf/ConvolutionFieldsTheory/';
 %    path = '/home/drtea/matlabToolboxes/ConvolutionFieldsTheory/';
-    path = '~/projects/ConvolutionFieldsTheory/';
+    path = '~/MatlabToolboxes/ConvolutionFieldsTheory/';
 end
 
 if isnumeric( out )

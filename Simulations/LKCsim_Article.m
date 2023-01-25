@@ -40,9 +40,27 @@ end
 %--------------------------------------------------------------------------
 %% Prepare workspace
 %--------------------------------------------------------------------------
+if ~exist( 'path', 'var' )
+%    path = '/vols/Scratch/ukbiobank/nichols/SelectiveInf/ConvolutionFieldsTheory/';
+%    path = '/home/drtea/matlabToolboxes/ConvolutionFieldsTheory/';
+    path = '~/MatlabToolboxes/ConvolutionFieldsTheory/';
+end
+
+if isnumeric( out )
+    out = num2str( out );
+end
+
+% Amount of Monte Carlo simulations
+if ~exist( 'Msim', 'var' )
+    Msim = 1e3;
+end
+
+%--------------------------------------------------------------------------
+%% Prepare workspace
+%--------------------------------------------------------------------------
 % Add the toolbox to the path 
 % path_toolbox = '/home/drtea/matlabToolboxes/RFTtoolbox';
-path_toolbox = '/home/fabian/Seafile/Code/matlabToolboxes/RFTtoolbox';
+path_toolbox = '~/MatlabToolboxes/RFTtoolbox';
 addpath(genpath(path_toolbox))
 
 % Add path to simulation code

@@ -87,13 +87,19 @@ switch D
         
     case 3
         % Length of the domain
-        T = 30;
+        T = 20;
 
         % Dimension of domain
         dim   = [ T T T ];
         
         % Resolution for obtaining the true LKCs
         theory_res = 7;
+        
+        % Get the masks
+        mask_box = true( dim );
+        mask_sphere = true( dim );
+        mask_sphere = bndry_voxels( logical( mask_sphere ), 'full' );
+        mask_sphere = dilate_mask( mask_sphere, 1 );
 end
 
 % Amount of bootstrap replicates for bHPE

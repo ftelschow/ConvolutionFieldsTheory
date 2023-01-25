@@ -25,9 +25,7 @@ if ~exist( 'out', 'var' )
 end
 
 if ~exist( 'path', 'var' )
-%    path = '/vols/Scratch/ukbiobank/nichols/SelectiveInf/ConvolutionFieldsTheory/';
-%    path = '/home/drtea/matlabToolboxes/ConvolutionFieldsTheory/';
-    path = '~/MatlabToolboxes/ConvolutionFieldsTheory/';
+    path = '/home/fabian/Seafile/Projects/2020_ConvolutionFieldsTheory/Code/';
 end
 
 if isnumeric( out )
@@ -44,7 +42,7 @@ end
 %--------------------------------------------------------------------------
 % Add the toolbox to the path 
 % path_toolbox = '/home/drtea/matlabToolboxes/RFTtoolbox';
-path_toolbox = '~/MatlabToolboxes/RFTtoolbox';
+path_toolbox = '/home/fabian/Seafile/Code/matlabToolboxes/RFTtoolbox';
 addpath(genpath(path_toolbox))
 
 % Add path to simulation code
@@ -82,7 +80,7 @@ switch D
         dim   = [ T T ];
         
         % Resolution for obtaining the true LKCs
-        theory_res = 7;
+        theory_res = 11;
         
         % Get the masks
         mask_box = true( dim );
@@ -101,19 +99,20 @@ switch D
 end
 
 % Amount of bootstrap replicates for bHPE
-Mboot = 1e3;
+Mboot = 2e3;
 
 % Vector for FWHM dependence
 FWHM = [ 1 1.5 2 3 4 5 6 ];
 
 % Vector for sample size dependence
-Nsubj = [ 20 50 100 150 ];
+Nsubj = [ 20 50 100 200 ];
 
 % Vector for resadd dependence
 Resadd = [ 1 3 5 ];
 
 % Methods compared in this simulation 
-methods = struct( 'convE', true, 'bHPE', [ Mboot, 1 ], ...
+methods = struct( 'convE', true, 'HPE', [ Mboot, 1 ],...
+                  'bHPE', [ Mboot, 1 ], ...
                   'kiebelE', 1, 'formanE', 1 );
               
 % String for output
@@ -162,7 +161,8 @@ if fwhm_switch
                                                     mask_lat,...
                                                     theory_res );
 
-    save( strcat( path_results, outname, '_D', num2str(D), case_name, '_fixedFWHM', out,'.mat' ),...
+    save( strcat( path_results, outname, '_D',...
+                  num2str(D), case_name, '_fixedFWHM', out,'.mat' ),...
                   'D', 'fwhm', 'methods', 'Nsubj', 'fwhm', 'Resadd',...
                   'dim', 'Mboot', 'Msim', 'theoryL',...
                   'results', 'sim_time' );     

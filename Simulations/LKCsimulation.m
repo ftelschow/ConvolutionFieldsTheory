@@ -37,9 +37,9 @@ else
     end
 end
 
-
 %% Dependence on sample size for fixed FWHM
 %--------------------------------------------------------------------------
+tic
 if( length( FWHM ) == 1 )
     % Get cell for output results
     results = cell( [ length( Nsubj ) length( Resadd ) ] );
@@ -58,7 +58,6 @@ if( length( FWHM ) == 1 )
                               mask_lat );
     theoryL = LKC_wncfield_theory( mask, params );
 
-    tic
     for n = 1:length( Nsubj )
         for r = 1:length( Resadd )
             % Get parameters for the convolution fields
@@ -66,7 +65,7 @@ if( length( FWHM ) == 1 )
                                       Resadd( r ),...
                                       ceil( Resadd( r ) / 2 ),...
                                       mask_lat );
-            % Get the simulation results 
+            % Get the simulation results
             results{n,r} = simulate_LKCests( Msim,...
                                              Nsubj( n ),...
                                              methods,...
@@ -74,9 +73,8 @@ if( length( FWHM ) == 1 )
                                              mask );
         end
     end
-    sim_time = toc
 end
-
+sim_time = toc;
 
 %% Dependence on FWHM for fixed sample size
 %--------------------------------------------------------------------------

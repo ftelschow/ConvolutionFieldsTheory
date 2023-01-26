@@ -133,11 +133,20 @@ Nsubj = [ 20 50 100 200 ];
 
 % Vector for resadd dependence
 Resadd = [ 1 3 5 ];
-
-% Methods compared in this simulation 
-methods = struct( 'convE', true, 'HPE', [ Mboot, 1 ],...
+              
+% Methods compared in this simulation
+if D == 3
+    methods = struct( 'convE', logical( [ 1 1 0 ] ), 'HPE', [ Mboot, 1 ],...
                   'bHPE', [ Mboot, 1 ], ...
                   'kiebelE', 1, 'formanE', 1 );
+    % Change the ResAdd Vector to resolution 1, since otherwise it takes
+    % ages to compute the results.
+    Resadd = 1;
+else
+    methods = struct( 'convE', true, 'HPE', [ Mboot, 1 ],...
+                  'bHPE', [ Mboot, 1 ], ...
+                  'kiebelE', 1, 'formanE', 1 );
+end
               
 % String for output
 outname = "Sim_LKCestims";

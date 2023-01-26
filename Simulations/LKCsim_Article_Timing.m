@@ -33,7 +33,7 @@ if isnumeric( out )
     out = num2str( out );
 end
 
-Msim = 2;%100;
+Msim = 100;
 
 %--------------------------------------------------------------------------
 %% Prepare workspace

@@ -25,15 +25,15 @@ end
 
 if ~exist( 'path', 'var' )
 %    path = '/vols/Scratch/ukbiobank/nichols/SelectiveInf/ConvolutionFieldsTheory/';
-%    path = '/home/drtea/matlabToolboxes/ConvolutionFieldsTheory/';
-    path = '~/MatlabToolboxes/ConvolutionFieldsTheory/';
+    path = '/home/fabian/Seafile/Code/matlabToolboxes/ConvolutionFieldsTheory/';
+%    path = '~/MatlabToolboxes/ConvolutionFieldsTheory/';
 end
 
 if isnumeric( out )
     out = num2str( out );
 end
 
-Msim = 100;
+Msim = 2;%100;
 
 %--------------------------------------------------------------------------
 %% Prepare workspace

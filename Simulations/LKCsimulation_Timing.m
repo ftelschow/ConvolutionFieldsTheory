@@ -37,10 +37,20 @@ else
 end
 
 
-% Methods compared in this simulation 
-methods = struct( 'convE', true, ...
-                  'bHPE', [ Mboot, 1 ], ...
-                  'kiebelE', 1 );
+% Methods compared in this simulation
+if D == 3
+    methods = struct('convE', logical( [ 1 1 0 ] ),...
+                     'bHPE', [ Mboot, 1 ], ...
+                     'kiebelE', 1 );
+    % Change the ResAdd Vector to resolution 1, since otherwise it takes
+    % ages to compute the results.
+    Resadd = 1;
+else
+    methods = struct('convE', true,...
+                     'bHPE', [ Mboot, 1 ], ...
+                     'kiebelE', 1);
+end
+
 Nmethods = length(fieldnames(methods));
 
 % Get output vector for simulation time

@@ -75,6 +75,16 @@ sim_time = NaN*ones([Nmethods, length(Resadd)]);
     theoryL = LKC_wncfield_theory( mask, params );
 
     for r = 1:length( Resadd )
+        % Get the simulation results
+        for i = 1:Nmethods
+            if i == 1
+                names_rm = ["bHPE", "kiebelE"];
+            elseif i == 2
+                names_rm = ["convE", "kiebelE"];
+            else
+                names_rm = ["convE", "bHPE"];
+            end
+            
         % Get parameters for the convolution fields
         if ~(i == 2 && D == 3)
             params = ConvFieldParams( fvec,...
@@ -87,15 +97,6 @@ sim_time = NaN*ones([Nmethods, length(Resadd)]);
                                       ceil( Resadd( 1 ) / 2 ),...
                                       true );
         end
-        % Get the simulation results
-        for i = 1:Nmethods
-            if i == 1
-                names_rm = ["bHPE", "kiebelE"];
-            elseif i == 2
-                names_rm = ["convE", "kiebelE"];
-            else
-                names_rm = ["convE", "bHPE"];
-            end
             
             methods_i = rmfield(methods, names_rm(1));
             methods_i = rmfield(methods_i, names_rm(2));

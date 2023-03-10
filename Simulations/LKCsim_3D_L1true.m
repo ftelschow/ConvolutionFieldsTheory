@@ -18,10 +18,6 @@ if ~exist( 'out', 'var' )
     out = "";
 end
 
-if ~exist( 'path', 'var' )
-    path = '/home/fabian/Seafile/Projects/2020_ConvolutionFieldsTheory/Code/';
-end
-
 if isnumeric( out )
     out = num2str( out );
 end
@@ -83,7 +79,7 @@ FWHM = [ 1 2 3 4 5 6 ];
 Nsubj = 20;
 
 % Vector for resadd dependence
-Resadd = 7;
+Resadd = 5;
               
 % Methods compared in this simulation
 methods = struct( 'bHPE', [ Mboot, 1 ] );

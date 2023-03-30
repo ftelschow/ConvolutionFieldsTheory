@@ -1,12 +1,12 @@
 function runLKC2D(run)
-%Need total runs: 28
+%Need total runs: 24
 % Tests voxelwise coverage on the simulations
 D = 2;
 fwhm_vec = [ 1 2 3 4 5 6 ];
 nsubj = 100;
 
 % D = dim_vec(mod(run,3));
-fwhm = fwhm_vec(mod(run,7));
+fwhm = fwhm_vec(mod(run,6)+1);
 if mod(run,4) <= 1
     field_type = "stationary";
 else
@@ -19,7 +19,7 @@ else
     mask_name = "box";
 end
 
-saveloc = './FWER_results/';
+saveloc = '/''~/MatlabToolboxes/ConvolutionFieldsTheory/Results/';
 
 if nsubj > 1 % don't run the nsubj = 1 case (just included to make things prime)
     store_data = FWERsim_Article( D, fwhm, nsubj, field_type, mask_name, 5000);

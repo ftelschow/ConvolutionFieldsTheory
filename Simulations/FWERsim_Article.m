@@ -28,6 +28,8 @@ function store_data = FWERsim_Article( D, fwhm_vec, nsubj_vec, field_type, ...
 % AUTHOR: Samuel Davenport
 %--------------------------------------------------------------------------
 
+addpath(genpath("~/MatlabToolboxes/RFTtoolbox"))
+
 %%  Add/check optional values
 %--------------------------------------------------------------------------
 if ~exist( 'niters', 'var' )

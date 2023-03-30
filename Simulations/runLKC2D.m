@@ -19,7 +19,7 @@ else
     mask_name = "box";
 end
 
-saveloc = '/''~/MatlabToolboxes/ConvolutionFieldsTheory/Results/';
+saveloc = '~/MatlabToolboxes/ConvolutionFieldsTheory/Results/';
 
 if nsubj > 1 % don't run the nsubj = 1 case (just included to make things prime)
     store_data = FWERsim_Article( D, fwhm, nsubj, field_type, mask_name, 5000);

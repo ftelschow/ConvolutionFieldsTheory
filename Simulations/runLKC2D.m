@@ -22,7 +22,7 @@ end
 
 fwhm = fwhm_vec(mod(run,6)+1);
 
-store_data = FWERsim_Article( D, fwhm, nsubj, field_type, mask_name, 1);
+store_data = FWERsim_Article( D, fwhm, nsubj, field_type, mask_name, 5000);
 
 saveloc = ['~/MatlabToolboxes/ConvolutionFieldsTheory/Results/', ...
            char(field_type), '_', char(mask_name), '/', 'D_', num2str(D),...
